@@ -17,9 +17,9 @@ export default function TriageFlow() {
     try {
       await createTriage({ description: symptom }, identityNumber, requiresCertificate);
       setStep(2);
-    } catch (error) {
-      console.error(error);
-      alert('Error al conectar con la API');
+    } catch (error: any) {
+      console.error('Triage submission error:', error);
+      alert(`Error al conectar con la API: ${error.message || 'Error desconocido'}`);
     } finally {
       setLoading(false);
     }

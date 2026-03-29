@@ -18,8 +18,19 @@ function VerifyToken() {
     }
 
     const verifyToken = async () => {
+      const IS_DEMO = process.env.NEXT_PUBLIC_DEMO_MODE === 'true';
+      if (IS_DEMO && token === 'mock-token') {
+        console.log('DEMO MODE: Verificando token mock');
+        localStorage.setItem('accessToken', 'mock-jwt-token');
+        localStorage.setItem('user', JSON.stringify({ email: 'paciente@ejemplo.com', name: 'Paciente Demo' }));
+        setStatus('success');
+        setTimeout(() => router.push('/checkout'), 2000);
+        return;
+      }
+
       try {
         const response = await fetch(`${API_URL}/auth/verify?token=${token}`);
+
         if (!response.ok) throw new Error('Token inválido o expirado');
         
         const data = await response.json();

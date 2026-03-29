@@ -45,6 +45,22 @@ export default function Onboarding() {
           </p>
         </div>
 
+        {process.env.NEXT_PUBLIC_DEMO_MODE === 'true' && (
+          <div className="mt-4 p-4 border-2 border-dashed border-blue-200 rounded-xl bg-blue-50/30">
+            <p className="text-xs text-blue-800 font-medium mb-3">Escritorio del Cliente (Demo):</p>
+            <button
+              onClick={() => window.location.href = `/MED/auth/verify?token=mock-token`}
+              className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg text-sm font-bold hover:bg-blue-600 transition-colors shadow-sm"
+            >
+              Simular Click en Email 🖱️
+            </button>
+            <p className="text-[10px] text-blue-500 mt-2 italic">
+              Este botón solo aparece en modo demo para facilitar la navegación del cliente.
+            </p>
+          </div>
+        )}
+
+
         <button 
           onClick={() => setSent(false)}
           className="text-blue-600 text-sm font-semibold hover:underline"

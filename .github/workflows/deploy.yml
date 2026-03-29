@@ -1,0 +1,44 @@
+name: Deploy Next.js to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'web/**'
+      - '.github/workflows/deploy.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ⚙️
+        uses: actions/setup-node@v4
+        with:
+          node-cache: 'npm'
+          cache-dependency-path: './web/package-lock.json'
+          node-version: 20
+
+      - name: Install Dependencies 🔧
+        run: npm install
+        working-directory: ./web
+
+      - name: Build with Next.js 🏗️
+        run: npm run build
+        working-directory: ./web
+        env:
+          NEXT_PUBLIC_DEMO_MODE: 'true'
+          NEXT_PUBLIC_API_URL: 'https://dcolombres.github.io/MED' # Dummy for demo
+
+      - name: Deploy to GitHub Pages 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: web/out
+          branch: gh-pages
