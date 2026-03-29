@@ -10,11 +10,15 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  triages   Triage[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id            String         @id @default(cuid())
+  email         String         @unique
+  name          String?
+  dni           String?
+  phone         String?
+  triages       Triage[]
+  consultations Consultation[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
 }
 
 model MagicLinkToken {
@@ -28,15 +32,18 @@ model MagicLinkToken {
 }
 
 model Triage {
-  id                  String       @id @default(cuid())
-  symptoms            String       // SQLite simplificado: guardamos como String/JSON
-  identityNumber      String?      
-  requiresCertificate Boolean      @default(false)
-  status              TriageStatus @default(PENDING)
-  userId              String?      
-  user                User?        @relation(fields: [userId], references: [id])
-  createdAt           DateTime     @default(now())
-  updatedAt           DateTime     @updatedAt
+  id                  String         @id @default(cuid())
+  symptoms            String         // SQLite simplified: we can store as JSON string or use Json type
+  motivo              String?
+  identityNumber      String?
+  requiresCertificate Boolean        @default(false)
+  additionalData      String?        // JSON string
+  status              TriageStatus   @default(PENDING)
+  userId              String?
+  user                User?          @relation(fields: [userId], references: [id])
+  consultation        Consultation?
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @updatedAt
 }
 
 enum TriageStatus {
@@ -44,4 +51,97 @@ enum TriageStatus {
   COMPLETED
   PAID
   EXPIRED
+}
+
+model Doctor {
+  id            String         @id @default(cuid())
+  name          String
+  email         String         @unique
+  matricula     String         @unique
+  especialidad  String         @default("Clínica Médica")
+  status        DoctorStatus   @default(AVAILABLE)
+  consultations Consultation[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+enum DoctorStatus {
+  AVAILABLE
+  BUSY
+  OFFLINE
+}
+
+model Consultation {
+  id                 String              @id @default(cuid())
+  triageId           String              @unique
+  triage             Triage              @relation(fields: [triageId], references: [id])
+  userId             String?
+  user               User?               @relation(fields: [userId], references: [id])
+  doctorId           String?
+  doctor             Doctor?             @relation(fields: [doctorId], references: [id])
+  status             ConsultationStatus  @default(WAITING)
+  messages           Message[]
+  payment            Payment?
+  prescription       Prescription?
+  medicalCertificate MedicalCertificate?
+  startedAt          DateTime?
+  endedAt            DateTime?
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+}
+
+enum ConsultationStatus {
+  WAITING
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+model Message {
+  id             String       @id @default(cuid())
+  consultationId String
+  consultation   Consultation @relation(fields: [consultationId], references: [id])
+  senderType     String       // "PATIENT" or "DOCTOR"
+  senderId       String
+  content        String
+  imageUrl       String?
+  createdAt      DateTime     @default(now())
+
+  @@index([consultationId])
+}
+
+model Payment {
+  id             String       @id @default(cuid())
+  consultationId String       @unique
+  consultation   Consultation @relation(fields: [consultationId], references: [id])
+  mpPreferenceId String?
+  mpPaymentId    String?
+  status         String       @default("PENDING")
+  amount         Float
+  currency       String       @default("ARS")
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+}
+
+model Prescription {
+  id               String       @id @default(cuid())
+  consultationId   String       @unique
+  consultation     Consultation @relation(fields: [consultationId], references: [id])
+  medications      String       // JSON string for medications list
+  observations     String?
+  pdfUrl           String?
+  verificationCode String       @unique
+  issuedAt         DateTime     @default(now())
+}
+
+model MedicalCertificate {
+  id               String       @id @default(cuid())
+  consultationId   String       @unique
+  consultation     Consultation @relation(fields: [consultationId], references: [id])
+  daysOff          Int
+  diagnosis        String?
+  returnDate       DateTime
+  pdfUrl           String?
+  verificationCode String       @unique
+  issuedAt         DateTime     @default(now())
 }

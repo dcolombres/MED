@@ -47,7 +47,7 @@ export class DocumentsService {
     await this.prisma.prescription.create({
       data: {
         consultationId,
-        medications: data.medications,
+        medications: JSON.stringify(data.medications),
         observations: data.observations,
         pdfUrl,
         verificationCode,

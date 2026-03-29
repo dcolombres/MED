@@ -31,7 +31,7 @@ export class DoctorController {
   @Patch(':id/status')
   setStatus(
     @Param('id') id: string,
-    @Body() body: { status: 'AVAILABLE' | 'BUSY' | 'OFF' },
+    @Body() body: { status: 'AVAILABLE' | 'BUSY' | 'OFFLINE' },
   ) {
     return this.doctorService.setStatus(id, body.status);
   }

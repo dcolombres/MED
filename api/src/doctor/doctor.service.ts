@@ -22,7 +22,7 @@ export class DoctorService {
     return this.prisma.doctor.findFirst({ where: { status: 'AVAILABLE' } });
   }
 
-  async setStatus(doctorId: string, status: 'AVAILABLE' | 'BUSY' | 'OFF') {
+  async setStatus(doctorId: string, status: 'AVAILABLE' | 'BUSY' | 'OFFLINE') {
     const doctor = await this.prisma.doctor.findUnique({
       where: { id: doctorId },
     });
