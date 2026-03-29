@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import * as PDFDocument from 'pdfkit';
+import PDFDocument from 'pdfkit';
 import * as QRCode from 'qrcode';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -80,7 +80,7 @@ export class DocumentsService {
       doc.pipe(stream);
 
       // Header
-      doc.fontSize(20).fillColor('#1a4fa0').text('UMA Salud', { align: 'center' });
+      doc.fontSize(20).fillColor('#1a4fa0').text('ME-DIC', { align: 'center' });
       doc.fontSize(14).fillColor('#333').text('RECETA MÉDICA DIGITAL', { align: 'center' });
       doc.moveDown();
       doc.fontSize(10).fillColor('#666')
@@ -188,7 +188,7 @@ export class DocumentsService {
       doc.pipe(stream);
 
       // Header
-      doc.fontSize(20).fillColor('#1a4fa0').text('UMA Salud', { align: 'center' });
+      doc.fontSize(20).fillColor('#1a4fa0').text('ME-DIC', { align: 'center' });
       doc.fontSize(14).fillColor('#333').text('CERTIFICADO MÉDICO LABORAL', { align: 'center' });
       doc.moveDown();
       doc.fontSize(10).fillColor('#666')
@@ -226,7 +226,7 @@ export class DocumentsService {
       doc.image(qrBuffer, { width: 80, align: 'right' });
       doc.fontSize(9).fillColor('#888')
         .text(`Código de verificación: ${data.verificationCode}`, { align: 'center' });
-      doc.text('Verificar en: umasalud.com.ar/verificar', { align: 'center' });
+      doc.text('Verificar en: me-dic.com.ar/verificar', { align: 'center' });
 
       doc.end();
       stream.on('finish', resolve);

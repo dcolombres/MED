@@ -1,7 +1,7 @@
 # UC-07: Panel Médico / Gestión de Guardia
 
 ## Objetivo
-Permitir que un profesional de salud registrado en UMA se incorpore a la cola de guardia, manage su disponibilidad y acepte/atienda consultas de pacientes entrantes.
+Permitir que un profesional de salud registrado en ME-DIC se incorpore a la cola de guardia, manage su disponibilidad y acepte/atienda consultas de pacientes entrantes.
 
 ## Actores
 - Médico (usuario del backoffice)
@@ -24,4 +24,4 @@ Permitir que un profesional de salud registrado en UMA se incorpore a la cola de
 - Un médico no puede atender más de **1 consulta simultánea** en el MVP (escalar en v2).
 - La **matrícula del médico** debe ser validada al momento del alta en la plataforma contra el padrón del **Ministerio de Salud de la Nación** (API de SISA o verificación manual).
 - Los médicos deben renovar su estado activo cada **8 horas** para evitar quedarse en guardia "zombie" (sin respuesta).
-- El historial de consultas del médico (fecha, duración, diagnóstico emitido) debe ser auditable por el equipo de calidad de UMA.
+- El historial de consultas del médico (fecha, duración, diagnóstico emitido) debe ser auditable por el equipo de calidad de ME-DIC.

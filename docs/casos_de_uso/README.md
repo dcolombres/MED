@@ -1,4 +1,4 @@
-# Casos de Uso - UMA Salud
+# Casos de Uso - ME-DIC
 
 Este directorio contiene la documentación formal funcional del proyecto, dividida por actores (Paciente, Médico, Sistema) y flujos (Use Cases).
 

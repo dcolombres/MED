@@ -5,7 +5,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   
   // Habilitar CORS para que Next.js (puerto 3000) pueda acceder
-  app.enableCORS();
+  app.enableCors();
   
   // Correr en el puerto 3001
   await app.listen(3001);
