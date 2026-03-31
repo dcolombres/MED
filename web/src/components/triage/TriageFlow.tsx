@@ -26,81 +26,68 @@ export default function TriageFlow() {
   };
 
   if (step === 2) {
-    return <Onboarding />;
+    return (
+      <div className="animate-fade-in">
+        <Onboarding />
+      </div>
+    );
   }
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white rounded-xl shadow-md border border-gray-100">
-      <div className="flex items-center justify-between mb-6">
-        <span className="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">
-          Paso 1: Triaje Médico
-        </span>
-        <span className="text-gray-400 text-xs flex items-center">
-          <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-            <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
-          </svg>
-          Conexión Segura
-        </span>
+    <div className="bg-white rounded-[2.5rem] p-10 shadow-2xl shadow-slate-200/50 border border-slate-100 max-w-xl mx-auto">
+      <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center space-x-2">
+          <span className="w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-xs font-black">1</span>
+          <h2 className="text-sm font-bold text-slate-400 uppercase tracking-widest">Triaje Inicial</h2>
+        </div>
       </div>
 
-      <h2 className="text-2xl font-bold text-gray-800 mb-2">¿Cómo te sientes hoy?</h2>
-      <p className="text-sm text-gray-500 mb-6">Tu descripción ayuda al médico a prepararse antes de la llamada.</p>
+      <h3 className="text-3xl font-black text-slate-900 mb-4">¿Cómo te sientes hoy?</h3>
+      <p className="text-slate-500 mb-8 leading-relaxed">Describe tus síntomas para que nuestro médico de guardia pueda prepararse.</p>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
-            Describe tu síntoma
-            <span className="ml-2 group relative">
-              <svg className="w-4 h-4 text-gray-400 cursor-help" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2 bg-gray-800 text-white text-[10px] rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
-                Sé lo más detallado posible: cuándo empezó, intensidad y localización del dolor.
-              </span>
-            </span>
+      <form onSubmit={handleSubmit} className="space-y-8">
+        <div className="space-y-3">
+          <label className="text-sm font-bold text-slate-700 flex items-center">
+            Describe tu malestar
+            <span className="ml-2 text-blue-500">✨</span>
           </label>
           <textarea
             value={symptom}
             onChange={(e) => setSymptom(e.target.value)}
-            rows={4}
-            className="block w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 transition-all"
-            placeholder="Ej: Dolor punzante en la sien izquierda desde hace 3 horas..."
+            rows={5}
+            className="block w-full px-5 py-4 bg-slate-50 border-transparent rounded-2xl text-slate-900 placeholder:text-slate-400 focus:bg-white focus:shadow-inner transition-all resize-none"
+            placeholder="Ej: Siento un dolor punzante en la frente que empeora con la luz..."
             required
           />
         </div>
 
-        <div className="p-4 bg-blue-50/50 rounded-2xl border border-blue-100">
-          <label className="flex items-center cursor-pointer">
+        <div className="p-6 bg-blue-50/40 rounded-3xl border border-blue-100/50">
+          <label className="flex items-center cursor-pointer group">
             <input
               type="checkbox"
               checked={requiresCertificate}
               onChange={(e) => setRequiresCertificate(e.target.checked)}
-              className="w-5 h-5 text-blue-600 border-gray-300 rounded-lg focus:ring-blue-500"
+              className="w-6 h-6 text-blue-600 border-slate-200 rounded-lg focus:ring-blue-500 transition-all"
             />
-            <span className="ml-3 text-sm font-semibold text-blue-900">¿Necesitas licencia médica laboral?</span>
+            <span className="ml-4 text-sm font-bold text-blue-900 group-hover:text-blue-700 transition-colors">
+              Necesito licencia médica laboral
+            </span>
           </label>
           
           {requiresCertificate && (
-            <div className="mt-4 space-y-3 animate-in fade-in slide-in-from-top-2">
-              <div>
-                <label className="block text-xs font-bold text-blue-700 uppercase mb-1">DNI / Documento de Identidad</label>
-                <input
-                  type="text"
-                  value={identityNumber}
-                  onChange={(e) => setIdentityNumber(e.target.value)}
-                  className="block w-full px-4 py-2 border border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 text-gray-900 bg-white"
-                  placeholder="Número de documento"
-                  required={requiresCertificate}
-                />
-              </div>
-              <div className="flex items-start space-x-2">
-                <svg className="w-4 h-4 text-blue-500 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-                </svg>
-                <p className="text-[11px] text-blue-700 leading-tight">
-                  Este dato es **estrictamente confidencial** y solo se utiliza para validar legalmente tu certificado médico.
-                </p>
-              </div>
+            <div className="mt-6 pt-6 border-t border-blue-100/50 animate-in fade-in slide-in-from-top-2">
+              <label className="block text-[10px] font-black text-blue-400 uppercase mb-2 tracking-widest">Identificación Oficial</label>
+              <input
+                type="text"
+                value={identityNumber}
+                onChange={(e) => setIdentityNumber(e.target.value)}
+                className="block w-full px-5 py-3 bg-white border border-blue-200 rounded-xl text-slate-900 focus:border-blue-500 shadow-sm"
+                placeholder="Número de DNI / Pasaporte"
+                required={requiresCertificate}
+              />
+              <p className="text-[10px] text-blue-400 mt-3 font-medium">
+                🔒 Encriptado y cumpliendo normativas de protección de datos.
+              </p>
             </div>
           )}
         </div>
@@ -108,14 +95,14 @@ export default function TriageFlow() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-blue-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-blue-700 shadow-xl shadow-blue-200 transition-all transform active:scale-[0.98] disabled:bg-gray-400"
+          className="group relative w-full overflow-hidden"
         >
-          {loading ? 'Preparando consulta...' : 'Continuar al Paso 2'}
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-700 to-blue-500 transition-all group-hover:scale-105"></div>
+          <div className="relative py-5 px-6 flex items-center justify-center space-x-3 text-white font-black text-lg">
+            <span>{loading ? 'Procesando...' : 'Siguiente Paso'}</span>
+            {!loading && <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>}
+          </div>
         </button>
-        
-        <p className="text-center text-[10px] text-gray-400">
-          Al continuar, aceptas que tus datos sean tratados bajo normas de ética médica internacional (HIPAA/GDPR).
-        </p>
       </form>
     </div>
   );
