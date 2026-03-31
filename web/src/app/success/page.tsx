@@ -15,71 +15,74 @@ export default function SuccessPage() {
       return;
     }
     setUser(JSON.parse(storedUser));
-    setConsultationId(`CONS-${Math.random().toString(36).substr(2, 9).toUpperCase()}`);
+    setConsultationId(`MED-${Math.random().toString(36).substr(2, 9).toUpperCase()}`);
   }, [router]);
 
   if (!user) return null;
 
   return (
-    <main className="min-h-screen bg-white py-12 px-6 flex flex-col items-center justify-center animate-fade-in">
-      <div className="max-w-xl w-full text-center">
+    <main className="min-h-screen bg-mesh py-12 px-6 flex flex-col items-center justify-center animate-premium">
+      <div className="max-w-2xl w-full text-center">
         
-        {/* Icono de Éxito Premium */}
-        <div className="mb-12 relative inline-flex">
-          <div className="absolute inset-0 bg-green-200 blur-2xl opacity-40 rounded-full"></div>
-          <div className="relative w-24 h-24 bg-gradient-to-br from-green-500 to-emerald-600 rounded-[2.5rem] flex items-center justify-center text-white shadow-xl shadow-green-200 transform -rotate-6">
-            <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" />
-            </svg>
+        {/* Animated Celebration Icon */}
+        <div className="mb-16 relative inline-flex">
+          <div className="absolute inset-0 bg-brand-primary blur-3xl opacity-20 animate-pulse"></div>
+          <div className="relative w-32 h-32 bg-slate-900 rounded-[3rem] flex items-center justify-center text-brand-primary shadow-2xl transform -rotate-12 border border-white/10 group">
+             <svg className="w-16 h-16 group-hover:scale-110 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
+             </svg>
           </div>
         </div>
 
-        <h1 className="text-5xl font-black text-slate-900 mb-4 tracking-tighter italic">¡Todo listo!</h1>
-        <p className="text-xl text-slate-500 mb-12 leading-relaxed">
-          Tu consulta ha sido procesada con éxito. Un médico te atenderá en la sala de espera virtual.
-        </p>
+        <h1 className="text-6xl md:text-8xl font-black text-slate-900 mb-6 tracking-tighter italic leading-none">All set, {user.email.split('@')[0]}.</h1>
+        <p className="text-xl text-slate-400 mb-16 font-medium italic">Payment confirmed. Your medical consultant is joining shortly.</p>
 
-        {/* Tarjeta de Detalles */}
-        <div className="bg-slate-50 rounded-[2rem] p-8 mb-12 border border-slate-100 text-left relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-blue-100/50 blur-3xl rounded-full -mr-12 -mt-12"></div>
+        {/* Status Card */}
+        <div className="glass rounded-[3.5rem] p-12 mb-16 border border-white/40 shadow-premium text-left relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-brand-primary/10 blur-3xl rounded-full -mr-16 -mt-16"></div>
           
-          <div className="space-y-4 relative">
-            <div className="flex justify-between items-center">
-              <span className="text-xs font-black text-slate-400 uppercase tracking-widest">ID de Consulta</span>
-              <span className="text-sm font-mono font-bold text-blue-600 bg-white px-3 py-1 rounded-lg border border-slate-200">{consultationId}</span>
+          <div className="space-y-8 relative">
+            <div className="flex justify-between items-center border-b border-slate-100 pb-8">
+              <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Session ID</span>
+              <span className="text-sm font-mono font-bold text-brand-primary bg-brand-primary/5 px-4 py-2 rounded-xl">{consultationId}</span>
             </div>
-            <div className="flex justify-between items-center">
-              <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Paciente</span>
-              <span className="text-sm font-bold text-slate-700">{user.email}</span>
+            
+            <div className="flex justify-between items-center border-b border-slate-100 pb-8">
+              <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Patient Email</span>
+              <span className="text-sm font-bold text-slate-900">{user.email}</span>
             </div>
-            <div className="pt-4 border-t border-slate-200 flex justify-between items-center">
-              <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Estado</span>
-              <span className="flex items-center text-sm font-black text-green-600">
-                <span className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
-                SALA DE ESPERA ACTIVA
-              </span>
+
+            <div className="flex justify-between items-center pt-2">
+              <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Room Status</span>
+              <div className="flex items-center gap-3">
+                 <span className="flex h-3 w-3 relative">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                 </span>
+                 <span className="text-xs font-black text-green-600 uppercase tracking-widest italic">Waiting Room Active</span>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Acciones Finales */}
-        <div className="grid gap-4">
+        {/* Action Button */}
+        <div className="space-y-8">
           <button
-            onClick={() => alert('Conectando con el médico...')}
-            className="w-full bg-slate-900 text-white py-5 rounded-2xl font-black text-lg hover:bg-slate-800 transition-all shadow-xl shadow-slate-200 active:scale-[0.98]"
+            onClick={() => alert('Opening Secure Video Room...')}
+            className="w-full bg-slate-900 text-white py-7 rounded-[2.5rem] font-black text-2xl hover:bg-brand-primary transition-all duration-500 shadow-2xl shadow-slate-900/10 active:scale-95 italic"
           >
-            Entrar a Videollamada →
+            Enter Medical Room →
           </button>
           
-          <div className="p-4 bg-blue-50/50 rounded-xl border border-blue-100/50 text-xs text-blue-700 font-medium leading-relaxed">
-            📢 Recibirás una notificación en tu correo cuando el médico esté listo para la descarga de tu **Certificado Médico Digital**.
+          <div className="p-6 bg-slate-50 rounded-2xl text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-relaxed">
+            Note: You'll receive a digital signature request for your **Medical Certificate (UC-06)** immediately after the call ends.
           </div>
 
           <button
             onClick={() => router.push('/')}
-            className="text-slate-400 text-xs font-black uppercase tracking-widest hover:text-slate-600 transition-colors py-4"
+            className="text-slate-300 text-[10px] font-black uppercase tracking-[0.4em] hover:text-brand-primary transition-all py-4"
           >
-            Volver al Inicio
+            Return to Dashboard
           </button>
         </div>
 

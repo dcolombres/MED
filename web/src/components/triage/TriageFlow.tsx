@@ -27,67 +27,58 @@ export default function TriageFlow() {
 
   if (step === 2) {
     return (
-      <div className="animate-fade-in">
+      <div className="animate-premium">
         <Onboarding />
       </div>
     );
   }
 
   return (
-    <div className="bg-white rounded-[2.5rem] p-10 shadow-2xl shadow-slate-200/50 border border-slate-100 max-w-xl mx-auto">
-      <div className="flex items-center justify-between mb-8">
-        <div className="flex items-center space-x-2">
-          <span className="w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-xs font-black">1</span>
-          <h2 className="text-sm font-bold text-slate-400 uppercase tracking-widest">Triaje Inicial</h2>
-        </div>
+    <div className="text-left py-4">
+      <div className="flex items-center gap-3 mb-10">
+        <div className="w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center text-[10px] font-black">01</div>
+        <h2 className="text-xs font-black text-slate-400 uppercase tracking-[0.2em]">Symptom Analysis</h2>
       </div>
 
-      <h3 className="text-3xl font-black text-slate-900 mb-4">¿Cómo te sientes hoy?</h3>
-      <p className="text-slate-500 mb-8 leading-relaxed">Describe tus síntomas para que nuestro médico de guardia pueda prepararse.</p>
+      <h3 className="text-4xl font-black text-slate-900 mb-4 tracking-tighter italic leading-none">Tell us how you feel.</h3>
+      <p className="text-slate-400 text-sm mb-12 font-medium">Be as detailed as possible. Our AI-driven triage will route you to the best specialist.</p>
 
-      <form onSubmit={handleSubmit} className="space-y-8">
-        <div className="space-y-3">
-          <label className="text-sm font-bold text-slate-700 flex items-center">
-            Describe tu malestar
-            <span className="ml-2 text-blue-500">✨</span>
-          </label>
+      <form onSubmit={handleSubmit} className="space-y-10">
+        <div className="relative">
           <textarea
             value={symptom}
             onChange={(e) => setSymptom(e.target.value)}
-            rows={5}
-            className="block w-full px-5 py-4 bg-slate-50 border-transparent rounded-2xl text-slate-900 placeholder:text-slate-400 focus:bg-white focus:shadow-inner transition-all resize-none"
-            placeholder="Ej: Siento un dolor punzante en la frente que empeora con la luz..."
+            rows={4}
+            className="block w-full px-0 py-4 bg-transparent border-b-2 border-slate-100 text-slate-900 placeholder:text-slate-300 focus:border-brand-primary outline-none transition-all resize-none text-xl font-medium"
+            placeholder="e.g. Sharp pain in my left temple since 3 hours ago..."
             required
           />
         </div>
 
-        <div className="p-6 bg-blue-50/40 rounded-3xl border border-blue-100/50">
-          <label className="flex items-center cursor-pointer group">
+        <div className="p-8 bg-slate-50 rounded-[2rem] border border-slate-100 group-hover:bg-white transition-colors duration-500">
+          <label className="flex items-center cursor-pointer">
             <input
               type="checkbox"
               checked={requiresCertificate}
               onChange={(e) => setRequiresCertificate(e.target.checked)}
-              className="w-6 h-6 text-blue-600 border-slate-200 rounded-lg focus:ring-blue-500 transition-all"
+              className="w-6 h-6 text-brand-primary border-slate-200 rounded-xl focus:ring-brand-primary transition-all"
             />
-            <span className="ml-4 text-sm font-bold text-blue-900 group-hover:text-blue-700 transition-colors">
-              Necesito licencia médica laboral
+            <span className="ml-4 text-sm font-black text-slate-900 uppercase tracking-widest">
+              I need a medical certificate
             </span>
           </label>
           
           {requiresCertificate && (
-            <div className="mt-6 pt-6 border-t border-blue-100/50 animate-in fade-in slide-in-from-top-2">
-              <label className="block text-[10px] font-black text-blue-400 uppercase mb-2 tracking-widest">Identificación Oficial</label>
+            <div className="mt-8 pt-8 border-t border-slate-200 animate-in fade-in slide-in-from-top-4 duration-500">
+              <label className="block text-[10px] font-black text-slate-400 uppercase mb-3 tracking-widest">Identity Document Number</label>
               <input
                 type="text"
                 value={identityNumber}
                 onChange={(e) => setIdentityNumber(e.target.value)}
-                className="block w-full px-5 py-3 bg-white border border-blue-200 rounded-xl text-slate-900 focus:border-blue-500 shadow-sm"
-                placeholder="Número de DNI / Pasaporte"
+                className="block w-full px-6 py-4 bg-white border border-slate-100 rounded-2xl text-slate-900 font-bold focus:border-brand-primary focus:ring-4 focus:ring-brand-primary/5 transition-all outline-none"
+                placeholder="Passport / ID Number"
                 required={requiresCertificate}
               />
-              <p className="text-[10px] text-blue-400 mt-3 font-medium">
-                🔒 Encriptado y cumpliendo normativas de protección de datos.
-              </p>
             </div>
           )}
         </div>
@@ -95,13 +86,16 @@ export default function TriageFlow() {
         <button
           type="submit"
           disabled={loading}
-          className="group relative w-full overflow-hidden"
+          className="w-full bg-slate-900 text-white py-6 rounded-[2rem] font-black text-xl hover:bg-brand-primary hover:shadow-2xl hover:shadow-brand-primary/30 transition-all duration-500 active:scale-95 disabled:bg-slate-200"
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-700 to-blue-500 transition-all group-hover:scale-105"></div>
-          <div className="relative py-5 px-6 flex items-center justify-center space-x-3 text-white font-black text-lg">
-            <span>{loading ? 'Procesando...' : 'Siguiente Paso'}</span>
-            {!loading && <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>}
-          </div>
+          {loading ? (
+            <span className="flex items-center justify-center gap-3">
+              <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+              Analyzing...
+            </span>
+          ) : (
+            'Continue to Identity Verification →'
+          )}
         </button>
       </form>
     </div>
