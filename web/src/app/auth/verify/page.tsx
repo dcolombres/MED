@@ -56,44 +56,54 @@ function VerifyToken() {
 
   if (status === 'loading') {
     return (
-      <div className="flex flex-col items-center justify-center p-8 text-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mb-4"></div>
-        <h2 className="text-xl font-semibold text-gray-800">Verificando tu acceso...</h2>
-        <p className="text-gray-500 mt-2">Estamos validando tu enlace mágico.</p>
+      <div className="flex flex-col items-center justify-center p-10 text-center glass-panel rounded-3xl max-w-sm w-full animate-fade-in-up">
+        <div className="relative mb-6">
+          <div className="absolute inset-0 bg-blue-500 rounded-full blur-md opacity-20 animate-pulse"></div>
+          <div className="animate-spin rounded-full h-14 w-14 border-t-2 border-r-2 border-blue-400 relative z-10"></div>
+        </div>
+        <h2 className="text-2xl font-bold text-white tracking-wide">Verificando Acceso</h2>
+        <p className="text-blue-200/60 mt-3 font-light">Asegurando tu conexión médica...</p>
       </div>
     );
   }
 
   if (status === 'error') {
     return (
-      <div className="flex flex-col items-center justify-center p-8 text-center bg-red-50 rounded-xl border border-red-100">
-        <div className="text-red-500 mb-4 text-4xl">⚠️</div>
-        <h2 className="text-xl font-bold text-red-800">Enlace no válido</h2>
-        <p className="text-red-600 mt-2">El enlace ha expirado o ya fue utilizado.</p>
+      <div className="flex flex-col items-center justify-center p-10 text-center glass-panel border-red-500/20 rounded-3xl max-w-sm w-full animate-fade-in-up">
+        <div className="w-20 h-20 bg-red-500/10 rounded-full flex items-center justify-center mb-6 border border-red-500/20 shadow-[0_0_20px_rgba(239,68,68,0.2)]">
+          <span className="text-4xl">⚠️</span>
+        </div>
+        <h2 className="text-2xl font-bold text-white mb-2">Enlace expirado</h2>
+        <p className="text-red-200/70 font-light mt-1 text-center">Tus accesos son temporales por seguridad. Solicitá uno nuevo.</p>
         <button 
           onClick={() => router.push('/')}
-          className="mt-6 text-blue-600 font-semibold hover:underline"
+          className="mt-8 glass-button w-full py-3 rounded-xl font-semibold text-sm tracking-wide"
         >
-          Volver a intentarlo
+          Volver a Intentarlo
         </button>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col items-center justify-center p-8 text-center bg-green-50 rounded-xl border border-green-100">
-      <div className="text-green-500 mb-4 text-4xl">✅</div>
-      <h2 className="text-xl font-bold text-green-800">¡Acceso verificado!</h2>
-      <p className="text-green-600 mt-2">Redirigiéndote al pago de tu consulta...</p>
+    <div className="flex flex-col items-center justify-center p-10 text-center glass-panel border-green-500/20 rounded-3xl max-w-sm w-full animate-fade-in-up">
+      <div className="w-20 h-20 bg-green-500/10 rounded-full flex items-center justify-center mb-6 border border-green-500/20 shadow-[0_0_20px_rgba(34,197,94,0.2)]">
+        <span className="text-4xl text-green-400">✅</span>
+      </div>
+      <h2 className="text-2xl font-bold text-white mb-2 tracking-wide">¡Acceso Correcto!</h2>
+      <p className="text-green-200/70 font-light mt-1">Preparando sala de consultas...</p>
     </div>
   );
 }
 
 export default function VerifyPage() {
   return (
-    <main className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-      <Suspense fallback={<div>Cargando...</div>}>
-        <VerifyToken />
+    <main className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[100px] pointer-events-none"></div>
+      <Suspense fallback={<div className="text-blue-300/50 animate-pulse tracking-widest text-sm uppercase">Conectando...</div>}>
+        <div className="relative z-10 w-full flex justify-center">
+          <VerifyToken />
+        </div>
       </Suspense>
     </main>
   );
