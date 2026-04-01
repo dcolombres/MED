@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MED - Demo Experience</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="bg-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+
+    <main id="app">
+        <!-- PASO 0: ONBOARDING -->
+        <section id="step-0" class="step active">
+            <div class="glass-card text-center">
+                <div class="logo-container">
+                    <i data-lucide="activity" class="logo-icon"></i>
+                    <h1>MED</h1>
+                </div>
+                <p class="subtitle">Salud digital al alcance de tu mano. Rápido, seguro y profesional.</p>
+                <div class="onboarding-features">
+                    <div class="feature"><i data-lucide="check-circle"></i> Consulta en minutos</div>
+                    <div class="feature"><i data-lucide="shield-check"></i> Médicos certificados</div>
+                    <div class="feature"><i data-lucide="file-text"></i> Receta electrónica</div>
+                </div>
+                <button class="btn btn-primary" onclick="nextStep(1)">
+                    Iniciar Nueva Consulta <i data-lucide="arrow-right"></i>
+                </button>
+                <p class="small-text">Sin esperas, sin traslados.</p>
+            </div>
+        </section>
+
+        <!-- PASO 1: TRIAGE -->
+        <section id="step-1" class="step">
+            <div class="glass-card">
+                <button class="btn-back" onclick="prevStep(0)"><i data-lucide="chevron-left"></i> Volver</button>
+                <h2>Triage Inteligente</h2>
+                <p>Cuéntanos un poco sobre cómo te sientes hoy.</p>
+                
+                <div class="triage-form">
+                    <div class="form-group">
+                        <label>¿Cuál es el síntoma principal?</label>
+                        <div class="symptom-grid">
+                            <div class="symptom-item active" onclick="toggleSymptom(this)">
+                                <i data-lucide="thermometer"></i>
+                                <span>Fiebre</span>
+                            </div>
+                            <div class="symptom-item" onclick="toggleSymptom(this)">
+                                <i data-lucide="headphone-off"></i>
+                                <span>Dolor de cabeza</span>
+                            </div>
+                            <div class="symptom-item" onclick="toggleSymptom(this)">
+                                <i data-lucide="wind"></i>
+                                <span>Tos/Gripe</span>
+                            </div>
+                            <div class="symptom-item" onclick="toggleSymptom(this)">
+                                <i data-lucide="utensils"></i>
+                                <span>Estomacal</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Intensidad del dolor (1-10)</label>
+                        <input type="range" min="1" max="10" value="5" class="slider">
+                        <div class="slider-labels">
+                            <span>Leve</span>
+                            <span>Moderado</span>
+                            <span>Severo</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-block" onclick="nextStep(2)">Continuar <i data-lucide="arrow-right"></i></button>
+                </div>
+            </div>
+        </section>
+
+        <!-- PASO 2: CHECKOUT -->
+        <section id="step-2" class="step">
+            <div class="glass-card">
+                <button class="btn-back" onclick="prevStep(1)"><i data-lucide="chevron-left"></i> Volver</button>
+                <h2>Checkout y Pago</h2>
+                <div class="plan-summary">
+                    <div class="plan-card">
+                        <div class="plan-header">
+                            <span class="badge">Recomendado</span>
+                            <h3>Consulta Inmediata</h3>
+                        </div>
+                        <div class="plan-price">$2.500<span>/ ARS</span></div>
+                        <ul class="plan-list">
+                            <li><i data-lucide="check"></i> Atención en < 15 min</li>
+                            <li><i data-lucide="check"></i> Receta Digital incluida</li>
+                            <li><i data-lucide="check"></i> Certificado de asistencia</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="payment-sim">
+                    <div class="card-sim">
+                        <i data-lucide="credit-card"></i>
+                        <span>Tarjeta finalizada en **** 4421</span>
+                    </div>
+                    <button class="btn btn-primary btn-block" onclick="simulatePayment()">Pagar y Confirmar</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- PASO 3: SALA DE ESPERA -->
+        <section id="step-3" class="step">
+            <div class="glass-card text-center">
+                <div class="waiting-anim">
+                    <div class="pulse"></div>
+                    <i data-lucide="user-plus" class="waiting-icon"></i>
+                </div>
+                <h2>Buscando Médico...</h2>
+                <p>Estamos asignando un profesional de turno para tu caso.</p>
+                <div class="progress-container">
+                    <div class="progress-bar" id="waiting-progress"></div>
+                </div>
+                <div class="waiting-info">
+                    <div class="info-item"><i data-lucide="clock"></i> Espera estimada: 2 min</div>
+                    <div class="info-item"><i data-lucide="users"></i> Pacientes en fila: 3</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PASO 4: CONSULTA -->
+        <section id="step-4" class="step">
+            <div class="video-layout">
+                <div class="video-main">
+                    <div class="video-overlay">
+                        <div class="doctor-badge">Dr. Alejandro Gómez</div>
+                        <div class="consultation-time">05:22</div>
+                    </div>
+                    <div class="doctor-feed">
+                        <div class="doctor-placeholder">
+                             <i data-lucide="user-round" class="doc-icon"></i>
+                        </div>
+                    </div>
+                    <div class="patient-feed">
+                        <video id="localVideo" autoplay playsinline muted></video>
+                        <div class="patient-placeholder" id="patient-fallback">Tú</div>
+                    </div>
+                    <div class="video-controls">
+                        <button class="ctrl-btn"><i data-lucide="mic"></i><span>Mute</span></button>
+                        <button class="ctrl-btn btn-danger" onclick="nextStep(5)"><i data-lucide="phone-off"></i><span>Finalizar</span></button>
+                        <button class="ctrl-btn"><i data-lucide="video"></i><span>Cámara</span></button>
+                    </div>
+                </div>
+                <div class="chat-sidebar glass-card">
+                    <h3>Chat Médico</h3>
+                    <div class="chat-messages">
+                        <div class="msg doctor">Hola Diego, cuéntame más sobre ese síntoma.</div>
+                        <div class="msg patient">Tengo fiebre desde anoche.</div>
+                        <div class="msg doctor">Entiendo. Vamos a revisar.</div>
+                    </div>
+                    <div class="chat-input">
+                        <input type="text" placeholder="Escribe un mensaje...">
+                        <button><i data-lucide="send"></i></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PASO 5: FINALIZACIÓN -->
+        <section id="step-5" class="step">
+            <div class="glass-card text-center">
+                <div class="success-icon">
+                    <i data-lucide="party-popper"></i>
+                </div>
+                <h2>¡Consulta Finalizada!</h2>
+                <p>El Dr. Gómez ha emitido tus documentos médicos.</p>
+                
+                <div class="document-grid">
+                    <div class="doc-card" onclick="downloadMock('receta')">
+                        <i data-lucide="file-text"></i>
+                        <span>Receta Digital</span>
+                        <button class="btn-download"><i data-lucide="download"></i></button>
+                    </div>
+                    <div class="doc-card" onclick="downloadMock('certificado')">
+                        <i data-lucide="file-badge"></i>
+                        <span>Certificado Médico</span>
+                        <button class="btn-download"><i data-lucide="download"></i></button>
+                    </div>
+                </div>
+
+                <button class="btn btn-outline btn-block" onclick="resetDemo()">Volver al Inicio</button>
+            </div>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+    </script>
+</body>
+</html>
