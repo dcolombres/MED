@@ -3,12 +3,11 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   output: 'export',
   basePath: '/MED',
-  assetPrefix: '/MED', // Asegura que los assets se carguen con la ruta del repo
+  // assetPrefix ya NO es necesario si basePath está bien configurado en Next.js moderno
   trailingSlash: true,
   images: {
-    unoptimized: true, // Requerido para output: 'export'
+    unoptimized: true,
   },
 };
 
 export default nextConfig;
-

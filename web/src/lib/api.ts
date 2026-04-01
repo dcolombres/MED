@@ -31,6 +31,11 @@ export async function createTriage(symptoms: any, identityNumber?: string, requi
 }
 
 export async function requestMagicLink(email: string) {
+  if (IS_DEMO) {
+    console.log(`DEMO MODE: Simulando envío de enlace mágico a ${email}`);
+    return { success: true, message: 'Enlace enviado (Simulado)' };
+  }
+
   const url = `${API_URL}/auth/magic-link`;
   try {
     const response = await fetch(url, {
